@@ -16,8 +16,20 @@
 </script>
 
 <div
-    class="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10"
+    class="relative flex min-h-svh flex-col items-center justify-center gap-6 overflow-hidden bg-[#030712] p-6 md:p-10"
 >
+    <!-- Background glow effects -->
+    <div
+        class="pointer-events-none absolute -left-48 top-1/4 h-[600px] w-[600px] rounded-full bg-blue-700/20 blur-[160px]"
+    ></div>
+
+    <div
+        class="pointer-events-none absolute -right-48 bottom-1/4 h-[600px] w-[600px] rounded-full bg-blue-600/20 blur-[160px]"
+    ></div>
+
+    <div
+        class="pointer-events-none absolute left-1/2 top-[-200px] h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-blue-900/15 blur-[150px]"
+    ></div>
     <div class="w-full max-w-sm">
         <div class="flex flex-col gap-8">
             <div class="flex flex-col items-center gap-4">

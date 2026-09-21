@@ -54,12 +54,16 @@
             {/if}
             {passkeyVerify.isLoading
                 ? (props.loadingLabel ?? 'Authenticating...')
-                : (props.label ?? 'Sign in with a passkey')}
+                // : (props.label ?? 'Sign in with a passkey')}
+                // : (props.label ?? 'Passwordless sign-in')}
+                // : (props.label ?? 'log in with your fingerprint or face scan')}
+                : (props.label ?? 'Log in with biometrics')}
         </Button>
 
         {#if passkeyVerify.error}
             <div class="text-center">
-                <InputError message={passkeyVerify.error} />
+                <InputError message={passkeyVerify.error}/>
+                <!-- <InputError message={biometricsVerify.error} /> -->
             </div>
         {/if}
     </div>
@@ -70,7 +74,7 @@
         </div>
         <div class="relative flex justify-center text-xs uppercase">
             <span class="bg-background px-2 text-muted-foreground">
-                {props.separator ?? 'Or continue with email'}
+                {props.separator ?? 'Or continue with phone number'}
             </span>
         </div>
     </div>

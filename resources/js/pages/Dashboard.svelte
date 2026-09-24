@@ -241,7 +241,7 @@
                             />
                         </svg>
 
-                        Add Excel File
+                        Add File
 
                     </label>
 

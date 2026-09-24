@@ -202,6 +202,7 @@
                             </div>
 
 
+                            <!-- svelte-ignore a11y_consider_explicit_label -->
                             <button
                                 id="remove-file"
                                 type="button"

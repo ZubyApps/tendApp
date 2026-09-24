@@ -72,32 +72,21 @@
                 <InputError message={errors.lastname} />
             </div>
 
-            <!-- Company -->
-            <div class="grid gap-2">
-                <Label for="company">Company</Label>
-                <Input
-                    id="company"
-                    type="text"
-                    required
-                    autocomplete="organization"
-                    name="company"
-                    placeholder="Company name"
-                />
-                <InputError message={errors.company} />
-            </div>
-
             <!-- Sex -->
-             <Label for="sex">Sex</Label>
-            <select
-                id="sex"
-                name="sex"
-                class="border-input flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm"
-            >
-                <option value="" class="bg-white text-black dark:bg-neutral-900 dark:text-white">Select Sex...</option>
-                <option value="male" class="bg-white text-black dark:bg-neutral-900 dark:text-white">Male</option>
-                <option value="female" class="bg-white text-black dark:bg-neutral-900 dark:text-white">Female</option>
-            </select>
+            <div class="grid gap-2">
+                <Label for="sex">Sex</Label>
+                <select
+                    id="sex"
+                    name="sex"
+                    required
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                >
+                    <option value="" disabled selected>Select sex...</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
                 <InputError message={errors.sex} />
+            </div>
 
             <!-- <div class="grid gap-2">
                 <Label for="sex">Sex</Label>
@@ -154,46 +143,18 @@
                 <InputError message={errors.email} />
             </div>
 
-            <!-- Sex -->
-            <div class="grid gap-2">
-                <Label for="sex">Sex</Label>
-                <select
-                    id="sex"
-                    name="sex"
-                    required
-                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                >
-                    <option value="" disabled selected>Select sex</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-                <InputError message={errors.sex} />
-            </div>
-
             <!-- Company -->
             <div class="grid gap-2">
                 <Label for="company">Company</Label>
                 <Input
                     id="company"
                     type="text"
+                    required
                     autocomplete="organization"
                     name="company"
                     placeholder="Company name"
                 />
                 <InputError message={errors.company} />
-            </div>
-
-            <!-- Address -->
-            <div class="grid gap-2">
-                <Label for="address">Address</Label>
-                <Input
-                    id="address"
-                    type="text"
-                    autocomplete="street-address"
-                    name="address"
-                    placeholder="Enter your address"
-                />
-                <InputError message={errors.address} />
             </div>
 
             <!-- Password -->

@@ -23,6 +23,11 @@ trait ProfileValidationRules
             'email' => $this->emailRules($userId),
             // 'sex' => $this->sexRules(),
             'sex' => ['nullable', 'string', Rule::in(['male', 'female'])],
+
+
+            // 'sex' => ['sometimes','required', 'in:male,female'],
+            // 'company' => ['nullable', 'string', 'max:255'],
+            // 'address' => ['nullable', 'string', 'max:255'],
         ];
     }
 

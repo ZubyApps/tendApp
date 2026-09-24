@@ -136,7 +136,6 @@
                     autocomplete="tel"
                     name="phone"
                     placeholder="08012345678"
-                    class="focus-visible:border-red-900 focus-visible:ring-2 focus-visible:ring-red-900/20"
                 />
                 <InputError message={errors.phone} />
             </div>
@@ -153,6 +152,48 @@
                     placeholder="email@example.com"
                 />
                 <InputError message={errors.email} />
+            </div>
+
+            <!-- Sex -->
+            <div class="grid gap-2">
+                <Label for="sex">Sex</Label>
+                <select
+                    id="sex"
+                    name="sex"
+                    required
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                >
+                    <option value="" disabled selected>Select sex</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <InputError message={errors.sex} />
+            </div>
+
+            <!-- Company -->
+            <div class="grid gap-2">
+                <Label for="company">Company</Label>
+                <Input
+                    id="company"
+                    type="text"
+                    autocomplete="organization"
+                    name="company"
+                    placeholder="Company name"
+                />
+                <InputError message={errors.company} />
+            </div>
+
+            <!-- Address -->
+            <div class="grid gap-2">
+                <Label for="address">Address</Label>
+                <Input
+                    id="address"
+                    type="text"
+                    autocomplete="street-address"
+                    name="address"
+                    placeholder="Enter your address"
+                />
+                <InputError message={errors.address} />
             </div>
 
             <!-- Password -->
@@ -182,7 +223,7 @@
                 />
                 <InputError message={errors.password_confirmation} />
             </div>
-
+            
             <!-- Submit Button -->
             <Button
                 type="submit"

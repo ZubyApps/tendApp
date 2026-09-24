@@ -1,4 +1,4 @@
-<script module lang="ts">
+<!-- <script module lang="ts">
     import { dashboard } from '@/routes';
 
     export const layout = {
@@ -9,7 +9,7 @@
             },
         ],
     };
-</script>
+</script> -->
 
 <!-- <script lang="ts">
     import AppHead from '@/components/AppHead.svelte';

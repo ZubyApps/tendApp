@@ -264,7 +264,92 @@
                     />
 
                 </div>
+                                <!-- FILE PREVIEW -->
+                {#if selectedFile}
 
+                    <div class="mt-4">
+
+                        <div
+                            class="flex items-center justify-between
+                                   rounded-lg border
+                                   border-gray-200 bg-white
+                                   px-5 py-4
+                                   dark:border-[#292929]
+                                   dark:bg-[#111111]"
+                        >
+
+                            <div class="flex min-w-0 items-center gap-4">
+
+                                <div
+                                    class="flex h-10 w-10 shrink-0
+                                           items-center justify-center
+                                           rounded-lg
+                                           bg-blue-500/10 text-blue-500
+                                           dark:text-blue-400"
+                                >
+                                    📊
+                                </div>
+
+
+                                <div class="min-w-0">
+
+                                    <p
+                                        class="truncate text-sm font-medium
+                                               text-gray-900
+                                               dark:text-white"
+                                    >
+                                        {selectedFile.name}
+                                    </p>
+
+                                    <p
+                                        class="mt-1 text-xs
+                                               text-gray-400
+                                               dark:text-[#606060]"
+                                    >
+                                        {formatFileSize(selectedFile.size)}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                onclick={removeFile}
+                                class="ml-4 rounded-md p-2
+                                       text-gray-400
+                                       transition
+                                       hover:bg-red-500/10
+                                       hover:text-red-500
+                                       dark:text-[#666666]"
+                            >
+                                ✕
+                            </button>
+
+                        </div>
+
+
+                        <!-- CONTINUE -->
+                        <div class="mt-5 flex justify-end">
+
+                            <button
+                                class="inline-flex items-center gap-2
+                                       rounded-md bg-blue-600
+                                       px-5 py-2.5 text-sm font-medium
+                                       text-white
+                                       transition hover:bg-blue-500"
+                            >
+                                Continue
+
+                                <span>→</span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                {/if}
 
             
 

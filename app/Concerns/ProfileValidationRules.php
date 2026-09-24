@@ -16,8 +16,13 @@ trait ProfileValidationRules
     protected function profileRules(?int $userId = null): array
     {
         return [
-            'name' => $this->nameRules(),
+            'firstname' => $this->nameRules(),
+            'middlename' => ['nullable', 'string', 'max:255'],
+            'lastname' => $this->nameRules(),
+            'phone' => $this->phoneRules($userId),
             'email' => $this->emailRules($userId),
+            // 'sex' => $this->sexRules(),
+            'sex' => ['nullable', 'string', Rule::in(['male', 'female'])],
         ];
     }
 
@@ -48,4 +53,23 @@ trait ProfileValidationRules
                 : Rule::unique(User::class)->ignore($userId),
         ];
     }
+
+    protected function phoneRules(?int $userId = null): array
+    {
+        return [
+            'required',
+            'string',
+            'digits:11',
+            $userId === null
+                ? Rule::unique(User::class)
+                : Rule::unique(User::class)->ignore($userId),
+        ];
+    }
+
+//     protected function sexRules(): array
+// {
+//     return ['nullable', 'string', Rule::in(['male', 'female'])];
+// }
+
+
 }

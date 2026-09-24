@@ -63,9 +63,9 @@
                 <!-- LOGO -->
                 <div class="flex items-center gap-3">
 
-                    <div class="w-11 h-11 bg-blue-600 rounded-xl flex items-center justify-center">
+                    <div class="w-25 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
                         <span class="text-white font-bold text-lg">
-                            K9
+                            T<small>END</small>APP
                         </span>
                     </div>
 

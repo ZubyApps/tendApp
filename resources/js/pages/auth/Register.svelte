@@ -33,43 +33,97 @@
 
             <!-- First Name -->
             <div class="grid gap-2">
-                <Label for="first_name">First Name</Label>
+                <Label for="firstname">First Name</Label>
                 <Input
-                    id="first_name"
+                    id="firstname"
                     type="text"
                     required
                     autocomplete="given-name"
-                    name="first_name"
+                    name="firstname"
                     placeholder="First name"
                 />
-                <InputError message={errors.first_name} />
+                <InputError message={errors.firstname} />
             </div>
 
             <!-- Middle Name -->
             <div class="grid gap-2">
-                <Label for="middle_name">Middle Name</Label>
+                <Label for="middlename">Middle Name</Label>
                 <Input
-                    id="middle_name"
+                    id="middlename"
                     type="text"
                     autocomplete="additional-name"
-                    name="middle_name"
+                    name="middlename"
                     placeholder="Middle name"
                 />
-                <InputError message={errors.middle_name} />
+                <InputError message={errors.middlename} />
             </div>
 
             <!-- Last Name -->
             <div class="grid gap-2">
-                <Label for="last_name">Last Name</Label>
+                <Label for="lastname">Last Name</Label>
                 <Input
-                    id="last_name"
+                    id="lastname"
                     type="text"
                     required
                     autocomplete="family-name"
-                    name="last_name"
+                    name="lastname"
                     placeholder="Last name"
                 />
-                <InputError message={errors.last_name} />
+                <InputError message={errors.lastname} />
+            </div>
+
+            <!-- Company -->
+            <div class="grid gap-2">
+                <Label for="company">Company</Label>
+                <Input
+                    id="company"
+                    type="text"
+                    required
+                    autocomplete="organization"
+                    name="company"
+                    placeholder="Company name"
+                />
+                <InputError message={errors.company} />
+            </div>
+
+            <!-- Sex -->
+             <Label for="sex">Sex</Label>
+            <select
+                id="sex"
+                name="sex"
+                class="border-input flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm"
+            >
+                <option value="" class="bg-white text-black dark:bg-neutral-900 dark:text-white">Select Sex...</option>
+                <option value="male" class="bg-white text-black dark:bg-neutral-900 dark:text-white">Male</option>
+                <option value="female" class="bg-white text-black dark:bg-neutral-900 dark:text-white">Female</option>
+            </select>
+                <InputError message={errors.sex} />
+
+            <!-- <div class="grid gap-2">
+                <Label for="sex">Sex</Label>
+                <Input
+                    id="sex"
+                    type="text"
+                    required
+                    autocomplete="sex"
+                    name="sex"
+                    placeholder="Sex"
+                />
+                <InputError message={errors.sex} />
+            </div> -->
+
+            <!-- Address -->
+            <div class="grid gap-2">
+                <Label for="address">Address</Label>
+                <Input
+                    id="address"
+                    type="text"
+                    required
+                    autocomplete="street-address"
+                    name="address"
+                    placeholder="Address"
+                />
+                <InputError message={errors.address} />
             </div>
 
             <!-- Phone Number -->

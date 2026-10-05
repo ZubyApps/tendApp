@@ -44,6 +44,9 @@
 </div> -->
 
 <script>
+    import { router } from '@inertiajs/svelte';
+    import { store } from '@/actions/App/Http/Controllers/FileController';
+
     let selectedFile = null;
 
     function handleFile(event) {
@@ -78,6 +81,29 @@
         }
 
         return `${(kb / 1024).toFixed(1)} MB`;
+    }
+
+    function submitFile(selectedFile){
+        event.preventDefault();
+        console.log(selectedFile)
+        if (!selectedFile) return;
+
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        const route = store();
+
+        // uploading = true;
+        router.post(route.url, formData, {
+            forceFormData: true,
+            // onFinish: () => (uploading = false),
+            onSuccess: () => {
+                selectedFile = null;
+            },
+            onError: (errors) => {
+                console.error(errors);
+            },
+        });
     }
 </script>
 
@@ -339,6 +365,7 @@
                                        px-5 py-2.5 text-sm font-medium
                                        text-white
                                        transition hover:bg-blue-500"
+                                onclick={submitFile(selectedFile)}
                             >
                                 Continue
 

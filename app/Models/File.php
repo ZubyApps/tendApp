@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use NumberFormatter;
 
 class File extends Model
 {
@@ -76,7 +79,7 @@ class File extends Model
         ]);
     }
 
-    public function processAttendanceData(int $id)
+    public function processAttendanceData(int $id , $duration)
     {
         $file = File::find($id);
         $storageFilename = $file->storage_filename;
@@ -86,20 +89,81 @@ class File extends Model
 
         $file = fopen($userFilePath, 'r');
 
-        // fgetcsv($file);
+        // fgetcsv($file, 0, ',', '"', '\\');
 
+        $mainArray = [];
         $attendanceArray = [];
 
         while(($attendance = fgetcsv($file, 0, ',', '"', '\\')) !== false){
-            $attendanceArray[] = $attendance;
+            $attendanceArray[] = array_map('rtrim', $attendance);;
             // info($attendance);
         }
 
         fclose($file);
 
-        foreach($attendanceArray as $index => $attendaceInfo){
-            info($attendaceInfo);
+        foreach($attendanceArray as $attendaceInfo){
 
+            // info('Attendanceinfo ',  [$attendaceInfo]);
+
+            $shiftDepts = ['Pharmacy Dept', 'Nursing Dept', 'Nursing Assistants Dept'];
+            $date = 0;
+
+            foreach($attendaceInfo as $index => $record){
+                $index >= 3 ? $date++ : '';
+
+                if (Carbon::hasFormatWithModifiers($record, 'H:i')){
+
+                    $ordinalDate = $this->getOrdinal($date);
+
+                    [$mShiftTime, $nShiftTime] = in_array($attendaceInfo[2], $shiftDepts) ? ['07:31', '19:31'] : ['08:01', '20:01'];
+
+                    // morning
+                    $morningShiftStart = CarbonImmutable::parse($mShiftTime);
+                    $morningShiftEnd = $morningShiftStart->addHours($duration);
+                    // afternoon
+                    $afternoonShiftStart = CarbonImmutable::parse('14:01');
+                    $afternoonShiftEnd = $afternoonShiftStart->addHours($duration);
+                    //night
+                    $eveningShiftStart = CarbonImmutable::parse($nShiftTime);
+                    $eveningShiftEnd = $eveningShiftStart->addHours($duration);
+
+                    $recordTime = Carbon::parse($record);
+
+                   
+                    if ($recordTime->between($morningShiftStart, $morningShiftEnd)){
+    
+                        $mainArray['mLate'][$attendaceInfo[1]][$ordinalDate] = $record;
+                    }
+
+                    if ($recordTime->between($afternoonShiftStart, $afternoonShiftEnd)){
+    
+                        $mainArray['aLate'][$attendaceInfo[1]][$ordinalDate] = $record;
+                    }
+
+                    if ($recordTime->between($eveningShiftStart, $eveningShiftEnd)){
+    
+                        $mainArray['nLate'][$attendaceInfo[1]][$ordinalDate] = $record;
+                    }
+
+                }
+
+            }
         }
+
+        info($mainArray);
     }
+
+    function getOrdinal($number) {
+    // Handle the exception for 11, 12, and 13
+    if (in_array(($number % 100), [11, 12, 13])) {
+        return $number . 'th';
+    }
+    
+    switch ($number % 10) {
+        case 1:  return $number . 'st';
+        case 2:  return $number . 'nd';
+        case 3:  return $number . 'rd';
+        default: return $number . 'th';
+    }
+}
 }

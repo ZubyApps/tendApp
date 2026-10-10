@@ -20,6 +20,7 @@
     import { toUrl } from '@/lib/utils';
     import { dashboard } from '@/routes';
     import type { NavItem } from '@/types';
+    import { pixie } from '@/routes';
 
     let {
         children,
@@ -33,7 +34,21 @@
             href: dashboard(),
             icon: LayoutGrid,
         },
+
+        {
+            title: 'Pixie',
+            href: pixie(),
+            icon: LayoutGrid,
+        },
     ];
+
+    // const mainPixieItems: NavItem[] = [
+    //     {
+    //         title: 'Pixie',
+    //         href: pixie(),
+    //         icon: LayoutGrid,
+    //     },
+    // ];
 
     const footerNavItems: NavItem[] = [
         // {
@@ -71,6 +86,10 @@
     <SidebarContent>
         <NavMain items={mainNavItems} />
     </SidebarContent>
+
+    <!-- <SidebarContent>
+        <NavMain items={mainPixieItems} />
+    </SidebarContent> -->
 
     <SidebarFooter>
         <NavFooter items={footerNavItems} />

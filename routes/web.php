@@ -8,9 +8,8 @@ Route::inertia('/', 'Welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
-
-Route::inertia('import', 'Import')->name('import');
-Route::inertia('pixie', 'Pixie')->name('pixie');
+    Route::inertia('import', 'Import')->name('import');
+    Route::inertia('pixie', 'Pixie')->name('pixie');
 
 Route::post(RoutePath::for('import', '/import'), [FileController::class, 'store']);
         

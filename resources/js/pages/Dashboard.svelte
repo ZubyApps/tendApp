@@ -43,68 +43,122 @@
     </div>
 </div> -->
 
-<script>
+
+<script lang="ts">
     import { router } from '@inertiajs/svelte';
     import { store } from '@/actions/App/Http/Controllers/FileController';
 
-    let selectedFile = null;
+    let selectedFile: File | null = null;
+    let uploading = false;
+    let uploadError = '';
 
-    function handleFile(event) {
-        const files = event.currentTarget.files;
+    function handleFile(event: Event) {
+        const input = event.currentTarget as HTMLInputElement;
+        const file = input.files?.[0];
 
-        if (files && files.length > 0) {
-            selectedFile = files[0];
+        if (!file) return;
+
+        uploadError = '';
+
+        if (!file.name.toLowerCase().endsWith('.csv')) {
+            uploadError = 'Please select a CSV file.';
+            input.value = '';
+            selectedFile = null;
+            return;
         }
+
+        selectedFile = file;
     }
 
-    function handleDrop(event) {
+    function handleDrop(event: DragEvent) {
         event.preventDefault();
 
-        const files = event.dataTransfer.files;
+        const file = event.dataTransfer?.files[0];
 
-        if (files && files.length > 0) {
-            selectedFile = files[0];
+        if (!file) return;
+
+        uploadError = '';
+
+        if (!file.name.toLowerCase().endsWith('.csv')) {
+            uploadError = 'Please upload a CSV file.';
+            return;
         }
+
+        selectedFile = file;
     }
 
     function removeFile() {
         selectedFile = null;
+        uploadError = '';
     }
 
-    function formatFileSize(bytes) {
-        if (!bytes) return "0 KB";
+    function formatFileSize(bytes: number) {
+        if (!bytes) return '0 KB';
 
         const kb = bytes / 1024;
 
-        if (kb < 1024) {
-            return `${kb.toFixed(1)} KB`;
-        }
-
-        return `${(kb / 1024).toFixed(1)} MB`;
+        return kb < 1024
+            ? `${kb.toFixed(1)} KB`
+            : `${(kb / 1024).toFixed(1)} MB`;
     }
 
-    function submitFile(selectedFile){
-        event.preventDefault();
-        console.log(selectedFile)
-        if (!selectedFile) return;
+    // function submitFile() {
+    //     if (!selectedFile || uploading) return;
 
-        const formData = new FormData();
-        formData.append('file', selectedFile);
+    //     uploadError = '';
 
-        const route = store();
+    //     const formData = new FormData();
+    //     formData.append('file', selectedFile);
 
-        // uploading = true;
-        router.post(route.url, formData, {
-            forceFormData: true,
-            // onFinish: () => (uploading = false),
-            onSuccess: () => {
-                selectedFile = null;
-            },
-            onError: (errors) => {
-                console.error(errors);
-            },
-        });
-    }
+    //     const route = store();
+
+    //     router.post(route.url, formData, {
+    //         forceFormData: true,
+    //         onStart: () => {
+    //             uploading = true;
+    //         },
+    //         onFinish: () => {
+    //             uploading = false;
+    //         },
+    //         onError: (errors) => {
+    //             uploadError =
+    //                 errors.file ?? 'The file could not be imported. Please check it and try again.';
+    //         },
+    //     });
+    //     window.location.href = window.location.origin+'/reports';
+    // }
+    function submitFile() {
+    if (!selectedFile || uploading) return;
+
+    uploadError = '';
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    const route = store();
+
+    router.post(route.url, formData, {
+        forceFormData: true,
+
+        onStart: () => {
+            uploading = true;
+        },
+
+        onFinish: () => {
+            uploading = false;
+        },
+
+        onSuccess: () => {
+            window.location.href = '/importedFiles';
+        },
+
+        onError: (errors) => {
+            uploadError =
+                errors.file ??
+                'The file could not be imported. Please check it and try again.';
+        },
+    });
+}
 </script>
 
 
@@ -156,7 +210,101 @@
         >
 
             <div class="w-full max-w-5xl">
+                
+        <!-- IMPORT GUIDELINES -->
+        <div
+            class="mb-5 rounded-xl border border-blue-200
+                bg-blue-50/70 p-5
+                dark:border-blue-900/50
+                dark:bg-blue-950/20"
+        >
+            <div class="flex items-start gap-3">
+                <div
+                    class="flex h-9 w-9 shrink-0 items-center
+                        justify-center rounded-lg
+                        bg-blue-100 text-blue-600
+                        dark:bg-blue-500/10
+                        dark:text-blue-400"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.7"
+                        stroke="currentColor"
+                        class="h-5 w-5"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M12 9v3.75m0 3h.008M10.3 3.86
+                            1.82 18.1a1.9 1.9 0 0 0
+                            1.63 2.85h17.1a1.9 1.9 0
+                            0 0 1.63-2.85L13.7
+                            3.86a1.96 1.96 0 0 0-3.4 0Z"
+                        />
+                    </svg>
+                </div>
 
+                <div class="min-w-0 flex-1">
+                    <h2
+                        class="text-sm font-semibold
+                            text-gray-900 dark:text-white"
+                    >
+                        Before you import
+                    </h2>
+
+                    <p
+                        class="mt-1 text-sm leading-6
+                            text-gray-600 dark:text-gray-400"
+                    >
+                        Follow these instructions to ensure your
+                        attendance records are processed correctly.
+                    </p>
+
+                    <ul
+                        class="mt-3 space-y-2 text-sm
+                            text-gray-700 dark:text-gray-300"
+                    >
+                        <li class="flex items-start gap-2">
+                            <span class="font-semibold text-blue-600">01.</span>
+                            <span>
+                                <strong>Remove the header row.</strong>
+                                Delete the column headings from the CSV.
+                                Import only the attendance records.
+                            </span>
+                        </li>
+
+                        <li class="flex items-start gap-2">
+                            <span class="font-semibold text-blue-600">02.</span>
+                            <span>
+                                <strong>Keep the columns in order.</strong>
+                                Do not rearrange employee IDs, names,
+                                departments or attendance times.
+                            </span>
+                        </li>
+
+                        <li class="flex items-start gap-2">
+                            <span class="font-semibold text-blue-600">03.</span>
+                            <span>
+                                <strong>Check the attendance data.</strong>
+                                Make sure employee details and recorded
+                                times are readable and correctly formatted.
+                            </span>
+                        </li>
+
+                        <li class="flex items-start gap-2">
+                            <span class="font-semibold text-blue-600">04.</span>
+                            <span>
+                                <strong>Upload a CSV file.</strong>
+                                Save or export your attendance sheet
+                                in .csv format before uploading.
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
                 <!-- DROP ZONE -->
                 <!-- svelte-ignore a11y_no_static_element_interactions -->
                 <div
@@ -280,15 +428,13 @@
                         Supported formats: .xlsx, .xls, .csv
                     </p>
 
-
-                    <input
-                        id="file-upload"
-                        type="file"
-                        accept=".xlsx,.xls,.csv"
-                        class="hidden"
-                        onchange={handleFile}
-                    />
-
+                <input
+                    id="file-upload"
+                    type="file"
+                    accept=".csv,text/csv"
+                    class="hidden"
+                    onchange={handleFile}
+                />
                 </div>
                                 <!-- FILE PREVIEW -->
                 {#if selectedFile}
@@ -357,22 +503,18 @@
 
 
                         <!-- CONTINUE -->
-                        <div class="mt-5 flex justify-end">
-
-                            <button
-                                class="inline-flex items-center gap-2
-                                       rounded-md bg-blue-600
-                                       px-5 py-2.5 text-sm font-medium
-                                       text-white
-                                       transition hover:bg-blue-500"
-                                onclick={submitFile(selectedFile)}
-                            >
-                                Continue
-
-                                <span>→</span>
-                            </button>
-
-                        </div>
+                        <button
+                            type="button"
+                            disabled={!selectedFile || uploading}
+                            class="inline-flex items-center gap-2 rounded-md
+                                bg-blue-600 px-5 py-2.5 text-sm font-medium
+                                text-white transition hover:bg-blue-500
+                                disabled:cursor-not-allowed disabled:opacity-50"
+                            onclick={submitFile}
+                        >
+                            {uploading ? 'Importing...' : 'Continue'}
+                            <span>→</span>
+                        </button>
 
                     </div>
 

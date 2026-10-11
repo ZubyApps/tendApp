@@ -11,8 +11,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('import', 'Import')->name('import');
     Route::inertia('pixie', 'Pixie')->name('pixie');
 
-Route::post(RoutePath::for('import', '/import'), [FileController::class, 'store']);
-        
+    Route::post(
+        RoutePath::for('import', '/import'),
+        [FileController::class, 'store']
+    );
+
+    Route::inertia('reports', 'Reports')->name('reports');
+    Route::inertia('importedFiles', 'ImportedFiles')->name('importedFiles');
+    
+    // Route::get('/reports', function () {
+    // })->name('reports');
 });
 
 require __DIR__.'/settings.php';

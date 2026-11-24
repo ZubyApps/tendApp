@@ -137,7 +137,7 @@
 
             {#if processing}<Spinner /> Processing...
                 {:else}
-                Log in
+                Log inn
             {/if}
 
               <!-- {#if processing}<Spinner />{/if}
